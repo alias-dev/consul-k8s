@@ -165,7 +165,7 @@ func ConfigureConsulCAKubernetesAuthRole(t *testing.T, vaultClient *vapi.Client,
 	params := map[string]interface{}{
 		"bound_service_account_names":      "*",
 		"bound_service_account_namespaces": ns,
-		"policies":                         "consul-ca,connect-webhook-cert-dc1",
+		"policies":                         "consul-ca,connect-webhook-cert-dc1,controller-webhook-cert-dc1",
 		"ttl":                              "24h",
 	}
 	_, err := vaultClient.Logical().Write(fmt.Sprintf("auth/%s/role/consul-ca", authPath), params)
@@ -261,7 +261,7 @@ path %q {
 func ConfigurePKICertificatesForControllerWebhook(t *testing.T,
 	vaultClient *vapi.Client, consulReleaseName, ns, datacenter string,
 	maxTTL string) string {
-	componentServiceAccountName := fmt.Sprintf("%s-consul-%s", consulReleaseName, "controller")
+	componentServiceAccountName := fmt.Sprintf("%s-consul-%s", consulReleaseName, "controller-webhook")
 	allowedDomains := fmt.Sprintf("%s.consul,%s,%s.%s,%s.%s.svc", datacenter,
 		componentServiceAccountName, componentServiceAccountName, ns, componentServiceAccountName, ns)
 	params := map[string]interface{}{
