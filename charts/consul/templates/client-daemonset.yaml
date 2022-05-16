@@ -313,6 +313,7 @@ spec:
                 {{- end }}
                 {{- if (and .Values.global.metrics.enabled .Values.global.metrics.enableAgentMetrics) }}
                 -hcl='telemetry { prometheus_retention_time = "{{ .Values.global.metrics.agentMetricsRetentionTime }}" }' \
+                -hcl='telemetry { disable_hostname = true }' \
                 {{- end }}
                 {{- if .Values.global.adminPartitions.enabled }}
                 -hcl='partition = "{{ .Values.global.adminPartitions.name }}"' \
